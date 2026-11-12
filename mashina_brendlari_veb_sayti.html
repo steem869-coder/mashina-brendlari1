@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBrand UZ - Dunyo Avtomobil Brendlari</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        cardHover: '#1f2937',
+                        accent: '#3b82f6',
+                        accentHover: '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-darkBg/80 border-b border-gray-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-car-side text-white text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">AutoBrand <span class="text-blue-500">UZ</span></span>
+                    <p class="text-xs text-gray-400 hidden sm:block">Dunyo avtomobil olami ensiklopediyasi</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 hidden md:inline-block">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> Rasmiy ma'lumotlar bazasi
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Search -->
+    <section class="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-blue-950/20 via-darkBg to-darkBg border-b border-gray-800/60">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
+                Mashina brendlarini kashf eting
+            </h1>
+            <p class="text-gray-400 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+                Dunyodagi eng mashhur avtomobil kompaniyalari tarixi, ularning yaratilish sirlari va eng ilg'or modellari bilan tanishing.
+            </p>
+            
+            <!-- Search & Filter Bar -->
+            <div class="relative max-w-xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Brend nomini qidiring (masalan: BMW, Tesla, Ferrari)..." 
+                    class="w-full pl-12 pr-4 py-4 rounded-2xl bg-cardBg border border-gray-700/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-xl transition-all">
+                <div class="absolute inset-y-0 right-2 flex items-center">
+                    <button id="clearSearch" class="hidden text-gray-400 hover:text-white p-2 text-sm">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Filter Tags -->
+            <div class="flex flex-wrap justify-center gap-2 mt-4" id="categoryTags">
+                <button data-filter="all" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-blue-600 text-white shadow-md shadow-blue-600/30 transition-all">Barchasi</button>
+                <button data-filter="germany" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cardBg border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">Germaniya</button>
+                <button data-filter="usa" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cardBg border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">AQSh</button>
+                <button data-filter="japan" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cardBg border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all"> Yaponiya</button>
+                <button data-filter="italy" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cardBg border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">Italiya</button>
+                <button data-filter="korea" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cardBg border border-gray-700 text-gray-300 hover:bg-gray-800 transition-all">Janubiy Koreya</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <!-- Results Counter -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-semibold text-gray-200">Avtomobil brendlari</h2>
+            <span id="resultCount" class="text-xs text-gray-400 bg-gray-800/80 px-3 py-1 rounded-lg border border-gray-700">12 ta brend mavjud</span>
+        </div>
+
+        <!-- Brands Grid -->
+        <div id="brandsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards will be dynamically inserted here via JS -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResults" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-xl">
+                <i class="fa-solid fa-car-burst"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Hech qanday brend topilmadi</h3>
+            <p class="text-gray-400 text-sm">Qidiruv so'zini o'zgartirib ko'ring yoki boshqa filtrni tanlang.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cardBg border-t border-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-4">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-car-side text-blue-500 text-xl"></i>
+                <span class="font-bold text-white">AutoBrand UZ</span>
+            </div>
+            <p class="text-xs text-gray-400">© 2026 Barcha huquqlar himoyalangan. Dunyo avtomobil brendlari katalogi.</p>
+            <div class="flex space-x-4 text-gray-400">
+                <span class="text-xs">Zamonaviy dizayn &bull; Interaktiv</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Window (Popup) -->
+    <div id="brandModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div id="modalContent" class="bg-cardBg border border-gray-700 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-all duration-300">
+            <!-- Modal Header with Image -->
+            <div class="relative h-56 sm:h-64 w-full bg-gray-900 overflow-hidden">
+                <img id="modalImage" src="" alt="Brend rasmi" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-cardBg/40 to-transparent"></div>
+                <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-all z-10">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div class="absolute bottom-4 left-6 right-6 flex items-end justify-between">
+                    <div>
+                        <span id="modalCountry" class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-600/90 text-white mb-2 shadow-sm"></span>
+                        <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-white"></h2>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-gray-300 block">Asos solingan:</span>
+                        <span id="modalYear" class="text-lg font-bold text-blue-400"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body Details -->
+            <div class="p-6 sm:p-8 space-y-6">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Brend Tarixi</h3>
+                    <p id="modalHistory" class="text-gray-300 text-sm sm:text-base leading-relaxed"></p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-gray-800">
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800">
+                        <span class="text-xs text-gray-400 block mb-1">Asoschisi</span>
+                        <span id="modalFounder" class="font-semibold text-white"></span>
+                    </div>
+                    <div class="bg-darkBg/60 p-4 rounded-2xl border border-gray-800">
+                        <span class="text-xs text-gray-400 block mb-1">Bosh qarorgohi</span>
+                        <span id="modalHeadquarters" class="font-semibold text-white"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mashhur Modellari</h3>
+                    <div id="modalModels" class="flex flex-wrap gap-2">
+                        <!-- Model tags inserted dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Brands Database
+        const brandsData = [
+            {
+                id: 'bmw',
+                name: 'BMW',
+                country: 'germany',
+                countryName: 'Germaniya',
+                year: 1916,
+                founder: 'Karl Rapp, Camillo Castiglioni',
+                headquarters: 'Myunxen, Germaniya',
+                image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Bavariya motor zavodlari — sport va ishonchli nemis avtomobillari ramzi.',
+                history: 'BMW (Bayerische Motoren Werke) dastlab samolyot dvigatellarini ishlab chiqarishdan boshlagan. 1923 yildan boshlab mototsikllar, 1928 yildan esa avtomobillar ishlab chiqarishga o\'tgan. Bugungi kunda u dunyodagi yetakchi premium avtomobil va sport krossoverlar ishlab chiqaruvchilardan biridir.',
+                models: ['BMW M3', 'BMW M5', 'X5', 'i4 Elektro', '7-Series']
+            },
+            {
+                id: 'tesla',
+                name: 'Tesla',
+                country: 'usa',
+                countryName: 'AQSh',
+                year: 2003,
+                founder: 'Martin Eberhard, Marc Tarpenning, Elon Musk',
+                headquarters: 'Ostin, Texas, AQSh',
+                image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Elektr avtomobillar va avtonom boshqaruv texnologiyalarida dunyo yetakchisi.',
+                history: 'Tesla kompaniyasi transport vositalarini elektr quvvatiga o\'tkazish va dunyoda barqaror energetikaga erishish maqsadi bilan tashkil etilgan. Elon Musk boshchiligida kompaniya avtomobilsozlik sanoatida inqilob qildi va avtopilot texnologiyalarini ommalashtirdi.',
+                models: ['Model S', 'Model 3', 'Model X', 'Model Y', 'Cybertruck']
+            },
+            {
+                id: 'mercedes',
+                name: 'Mercedes-Benz',
+                country: 'germany',
+                countryName: 'Germaniya',
+                year: 1926,
+                founder: 'Karl Benz, Gottlieb Daimler',
+                headquarters: 'Shutgart, Germaniya',
+                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Hashamat, xavfsizlik va innovatsiyalar uyg\'unlashgan afsonaviy nemis brendi.',
+                history: 'Karl Benz dunyodagi birinchi benzinli avtomobilni ixtiro qilganidan so\'ng, Daimler va Benz kompaniyalari birlashib Mercedes-Benz brendiga asos solishdi. U doimo avtomobil sanoatida xavfsizlik standartlari (ABS, havo yostiqchalari) va hashamat borasida peshqadam bo\'lib kelgan.',
+                models: ['S-Class', 'G-Class (Gelendvagen)', 'E-Class', 'EQS', 'AMG GT']
+            },
+            {
+                id: 'toyota',
+                name: 'Toyota',
+                country: 'japan',
+                countryName: 'Yaponiya',
+                year: 1937,
+                founder: 'Kiichiro Toyoda',
+                headquarters: 'Toyota, Aichi, Yaponiya',
+                image: 'https://images.unsplash.com/photo-1629897048986-f6c04f8391a0?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Dunodagi eng ko\'p avtomobil sotadigan va chidamliligi bilan tanilgan yapon brendi.',
+                history: 'Toyota dastlab to\'qimachilik dastgohlarini ishlab chiqaruvchi kompaniya bo\'lgan bo\'lsa, keyinchalik Kiichiro Toyoda tomonidan avtomobil ishlab chiqarishga yo\'naltirildi. Kompaniya dunyoga mashhur "Toyota Production System" (tejamkor ishlab chiqarish) tizimi va gibrid texnologiyalari (Prius) bilan tanilgan.',
+                models: ['Camry', 'Land Cruiser 300', 'RAV4', 'Corolla', 'Hilux']
+            },
+            {
+                id: 'ferrari',
+                name: 'Ferrari',
+                country: 'italy',
+                countryName: 'Italiya',
+                year: 1939,
+                founder: 'Enzo Ferrari',
+                headquarters: 'Maranello, Italiya',
+                image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Tezlik, ishtiyoq va boy poyga tarixiga ega italyan superkar brendi.',
+                history: 'Enzo Ferrari dastlab Alfa Romeo poyga jamoasini boshqargan, keyinchalik esa o\'zining "Scuderia Ferrari" jamoasini va o\'ta tezkor sport avtomobillarini ishlab chiqarish zavodini ochdi. Brendning "Ot qahramoni" (Prancing Horse) logotipi butun dunyoda tezlik timsoliga aylangan.',
+                models: ['Ferrari 488', 'SF90 Stradale', 'LaFerrari', 'Roma', 'Portofino']
+            },
+            {
+                id: 'chevrolet',
+                name: 'Chevrolet',
+                country: 'usa',
+                countryName: 'AQSh',
+                year: 1911,
+                founder: 'Louis Chevrolet, William C. Durant',
+                    headquarters: 'Detroyt, Michigan, AQSh',
+                image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Amerikaliklarning afsonaviy xalqchil avtomobil brendi va O\'zbekiston bozoridagi yetakchi.',
+                history: 'Poygachi Louis Chevrolet va General Motors asoschisi William Durant tomonidan asos solingan. Chevrolet o\'zining muskul-kar modellari (Camaro, Corvette) hamda hamyonbop va ishonchli sedanlari bilan mashhur. O\'zbekistonda ham ushbu brend avtomobillari xalqimiz orasida eng ommabop hisoblanadi.',
+                models: ['Corvette', 'Camaro', 'Malibu', 'Tracker', 'Equinox']
+            },
+            {
+                id: 'porsche',
+                name: 'Porsche',
+                country: 'germany',
+                countryName: 'Germaniya',
+                year: 1931,
+                founder: 'Ferdinand Porsche',
+                headquarters: 'Shutgart, Germaniya',
+                image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Yuqori unumdorlikka ega sport avtomobillari va krossoverlar yaratuvchi nemis afsonasi.',
+                history: 'Ferdinand Porsche tomonidan muhandislik burosi sifatida tashkil etilgan. Kompaniya o\'zining ikonik 911 modeli bilan dunyo miqyosida shuxrat qozondi. Porsche sport avtomobillari qulaylik va poyga trassasidagi mukammallikni o\'zida mujassam etgan.',
+                models: ['911 Carrera', 'Taycan', 'Panamera', 'Cayenne', 'Macan']
+            },
+            {
+                id: 'hyundai',
+                name: 'Hyundai',
+                country: 'korea',
+                countryName: 'Janubiy Koreya',
+                year: 1967,
+                founder: 'Chung Ju-yung',
+                headquarters: 'Seul, Janubiy Koreya',
+                image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Zamonaviy texnologiyalar va hamyonbop narxlarni birlashtirgan koreys giganti.',
+                history: 'Hyundai Motor Company qisqa vaqt ichida Osiyoning eng yirik avtoishlab chiqaruvchilaridan biriga aylandi. Bugungi kunda kompaniya nafaqat ishonchli oilaviy mashinalar, balki zamonaviy elektromobillar va luks toifadagi transportlarni ham muvaffaqiyatli ishlab chiqarmoqda.',
+                models: ['Elantra', 'Sonata', 'Santa Fe', 'Tucson', 'Ioniq 5']
+            },
+            {
+                id: 'lamborghini',
+                name: 'Lamborghini',
+                country: 'italy',
+                countryName: 'Italiya',
+                year: 1963,
+                founder: 'Ferruccio Lamborghini',
+                headquarters: 'Sant\'Agata Bolognese, Italiya',
+                image: 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Keskin dizayn va kuchli V12 dvigatellarga ega italyan superkarlari.',
+                history: 'Dastlab traktorlar ishlab chiqarib badavlat bo\'lgan Ferruccio Lamborghini Ferrari avtomobillaridagi ayrim kamchiliklardan norozi bo\'lib, o\'zining sport mashinalari zavodini ochishga qaror qiladi. Natijada dunyodagi eng jasur dizaynga ega superkarlar dunyoga keldi.',
+                models: ['Aventador', 'Huracan', 'Urus', 'Revuelto']
+            }
+        ];
+
+        // DOM Elements
+        const brandsGrid = document.getElementById('brandsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const resultCount = document.getElementById('resultCount');
+        const noResults = document.getElementById('noResults');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Modal Elements
+        const brandModal = document.getElementById('brandModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeModal = document.getElementById('closeModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalCountry = document.getElementById('modalCountry');
+        const modalYear = document.getElementById('modalYear');
+        const modalHistory = document.getElementById('modalHistory');
+        const modalFounder = document.getElementById('modalFounder');
+        const modalHeadquarters = document.getElementById('modalHeadquarters');
+        const modalModels = document.getElementById('modalModels');
+
+        let currentFilter = 'all';
+
+        // Render Cards Function
+        function renderBrands(filter = 'all', searchQuery = '') {
+            let filtered = brandsData.filter(brand => {
+                const matchesFilter = (filter === 'all' || brand.country === filter);
+                const matchesSearch = brand.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      brand.shortDesc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      brand.countryName.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            resultCount.textContent = `${filtered.length} ta brend mavjud`;
+
+            if (filtered.length === 0) {
+                brandsGrid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            
+            brandsGrid.innerHTML = filtered.map(brand => `
+                <div onclick="openModal('${brand.id}')" class="group bg-cardBg border border-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col cursor-pointer transform hover:-translate-y-1">
+                    <div class="relative h-48 w-full overflow-hidden bg-gray-900">
+                        <img src="${brand.image}" alt="${brand.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/111827/ffffff?text=Auto'">
+                        <div class="absolute top-3 right-3 bg-darkBg/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-blue-400 border border-gray-700">
+                            ${brand.countryName}
+                        </div>
+                        <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-semibold text-white">
+                            <i class="fa-regular fa-calendar text-blue-400 mr-1"></i> ${brand.year}
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">${brand.name}</h3>
+                            <p class="text-gray-400 text-sm line-clamp-2 leading-relaxed mb-4">${brand.shortDesc}</p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-800/80 flex items-center justify-between">
+                            <span class="text-xs font-medium text-blue-400 group-hover:translate-x-1 transition-transform inline-flex items-center">
+                                Batafsil ma'lumot <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open Modal
+        window.openModal = function(id) {
+            const brand = brandsData.find(b => b.id === id);
+            if (!brand) return;
+
+            modalImage.src = brand.image;
+            modalTitle.textContent = brand.name;
+            modalCountry.textContent = brand.countryName;
+            modalYear.textContent = brand.year + "-yil";
+            modalHistory.textContent = brand.history;
+            modalFounder.textContent = brand.founder;
+            modalHeadquarters.textContent = brand.headquarters;
+
+            modalModels.innerHTML = brand.models.map(model => `
+                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-xs font-medium">
+                    <i class="fa-solid fa-car text-[10px] mr-1"></i> ${model}
+                </span>
+            `).join('');
+
+            brandModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Modal Function
+        function closeModalWindow() {
+            brandModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModal.addEventListener('click', closeModalWindow);
+        brandModal.addEventListener('click', (e) => {
+            if (e.target === brandModal) closeModalWindow();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModalWindow();
+        });
+
+        // Search Input Event
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            if (query.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            renderBrands(currentFilter, query);
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearchBtn.classList.add('hidden');
+            renderBrands(currentFilter, '');
+            searchInput.focus();
+        });
+
+        // Filter Buttons Event
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-600/30');
+                    b.classList.add('bg-cardBg', 'border', 'border-gray-700', 'text-gray-300', 'hover:bg-gray-800');
+                });
+                
+                e.target.classList.remove('bg-cardBg', 'border', 'border-gray-700', 'text-gray-300', 'hover:bg-gray-800');
+                e.target.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-600/30');
+
+                currentFilter = e.target.getAttribute('data-filter');
+                renderBrands(currentFilter, searchInput.value.trim());
+            });
+        });
+
+        // Initial render on load
+        window.onload = () => {
+            renderBrands('all', '');
+        };
+    </script>
+</body>
+</html>
